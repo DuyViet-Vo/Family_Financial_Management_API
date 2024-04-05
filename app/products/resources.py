@@ -1,9 +1,11 @@
-from products.models import Product
-from products.schemas import product_schema, products_schema
-from flask_restful import Resource, abort
-from flask import request
 from config import db
 from flask_jwt_extended import jwt_required
+from flask_restful import Resource, abort
+from products.models import Product
+from products.schemas import product_schema, products_schema
+
+from flask import request
+
 
 class ProductResource(Resource):
     @jwt_required()  # Yêu cầu xác thực token cho tất cả các phương thức trong class này
@@ -20,8 +22,8 @@ class ProductResource(Resource):
 
     @jwt_required()  # Yêu cầu xác thực token cho tất cả các phương thức trong class này
     def post(self):
-        name = request.json['name']
-        price = request.json['price']
+        name = request.json["name"]
+        price = request.json["price"]
         new_product = Product(name=name, price=price)
         db.session.add(new_product)
         db.session.commit()
@@ -31,8 +33,8 @@ class ProductResource(Resource):
     def put(self, product_id):
         product = Product.query.get(product_id)
         if product:
-            product.name = request.json['name']
-            product.price = request.json['price']
+            product.name = request.json["name"]
+            product.price = request.json["price"]
             db.session.commit()
             return product_schema.dump(product)
         else:
@@ -44,6 +46,6 @@ class ProductResource(Resource):
         if product:
             db.session.delete(product)
             db.session.commit()
-            return '', 204
+            return "", 204
         else:
             abort(404, message="Product not found")
