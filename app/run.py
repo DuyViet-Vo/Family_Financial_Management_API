@@ -1,4 +1,4 @@
-from config import init_app
+from config import db, init_app
 from flask_restful import Api
 from flask_swagger_ui import get_swaggerui_blueprint
 from routes import create_routes
@@ -24,6 +24,9 @@ swaggerui_blueprint = get_swaggerui_blueprint(
 )
 
 app.register_blueprint(swaggerui_blueprint, url_prefix=SWAGGER_URL)
+
+with app.app_context():
+    db.create_all()
 
 
 @app.route("/api/swagger.json")

@@ -5,7 +5,7 @@ def swagger_json():
     swagger = {
         "swagger": "2.0",
         "info": {
-            "title": "Test",
+            "title": "Family Financial Management API",
             "description": "API for managing products and users",
             "version": "3.0",
         },
@@ -127,6 +127,26 @@ def swagger_json():
                     },
                 }
             },
+            "/groups": {
+                "get": {
+                    "summary": "Get all groups",
+                    "responses": {"200": {"description": "List of groups"}},
+                },
+                "post": {
+                    "summary": "Create a new product",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "in": "body",
+                            "required": True,
+                            "schema": {"$ref": "#/definitions/Group"},
+                        }
+                    ],
+                    "responses": {
+                        "201": {"description": "Group created successfully"}
+                    },
+                },
+            },
         },
         "definitions": {
             "Product": {
@@ -149,6 +169,13 @@ def swagger_json():
                 "properties": {
                     "email": {"type": "string"},
                     "password": {"type": "string"},
+                },
+            },
+            "Group": {
+                "type": "object",
+                "properties": {
+                    "group_name": {"type": "string"},
+                    "user_create": {"type": "number"},
                 },
             },
         },
