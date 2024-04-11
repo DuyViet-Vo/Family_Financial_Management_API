@@ -20,47 +20,51 @@ def swagger_json():
         },
         "security": [{"Bearer": []}],
         "paths": {
-            "/products": {
+            "/group-members": {
                 "get": {
-                    "summary": "Get all products",
-                    "responses": {"200": {"description": "List of products"}},
+                    "summary": "Get all group members",
+                    "responses": {
+                        "200": {"description": "List of group members"}
+                    },
                 },
                 "post": {
-                    "summary": "Create a new product",
+                    "summary": "Create a new group members",
                     "parameters": [
                         {
                             "name": "body",
                             "in": "body",
                             "required": True,
-                            "schema": {"$ref": "#/definitions/Product"},
+                            "schema": {"$ref": "#/definitions/GroupMember"},
                         }
                     ],
                     "responses": {
-                        "201": {"description": "Product created successfully"}
+                        "201": {
+                            "description": "Group member created successfully"
+                        }
                     },
                 },
             },
-            "/products/{product_id}": {
+            "/group-members/{group_member_id}": {
                 "get": {
                     "summary": "Get a product by ID",
                     "parameters": [
                         {
-                            "name": "product_id",
+                            "name": "group_member_id",
                             "in": "path",
                             "required": True,
                             "type": "integer",
                         }
                     ],
                     "responses": {
-                        "200": {"description": "Product details"},
-                        "404": {"description": "Product not found"},
+                        "200": {"description": "Group member details"},
+                        "404": {"description": "Group member not found"},
                     },
                 },
                 "put": {
-                    "summary": "Update a product by ID",
+                    "summary": "Update a group member by ID",
                     "parameters": [
                         {
-                            "name": "product_id",
+                            "name": "group_member_id",
                             "in": "path",
                             "required": True,
                             "type": "integer",
@@ -69,27 +73,31 @@ def swagger_json():
                             "name": "body",
                             "in": "body",
                             "required": True,
-                            "schema": {"$ref": "#/definitions/Product"},
+                            "schema": {"$ref": "#/definitions/GroupMember"},
                         },
                     ],
                     "responses": {
-                        "200": {"description": "Product updated successfully"},
-                        "404": {"description": "Product not found"},
+                        "200": {
+                            "description": "Group member updated successfully"
+                        },
+                        "404": {"description": "Group member not found"},
                     },
                 },
                 "delete": {
-                    "summary": "Delete a product by ID",
+                    "summary": "Delete a group member by ID",
                     "parameters": [
                         {
-                            "name": "product_id",
+                            "name": "group_member_id",
                             "in": "path",
                             "required": True,
                             "type": "integer",
                         }
                     ],
                     "responses": {
-                        "204": {"description": "Product deleted successfully"},
-                        "404": {"description": "Product not found"},
+                        "204": {
+                            "description": "Group member deleted successfully"
+                        },
+                        "404": {"description": "Group member not found"},
                     },
                 },
             },
@@ -207,11 +215,11 @@ def swagger_json():
             },
         },
         "definitions": {
-            "Product": {
+            "GroupMember": {
                 "type": "object",
                 "properties": {
-                    "name": {"type": "string"},
-                    "price": {"type": "number"},
+                    "account": {"type": "number"},
+                    "group": {"type": "number"},
                 },
             },
             "User": {
