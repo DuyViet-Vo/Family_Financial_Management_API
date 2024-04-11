@@ -9,16 +9,9 @@ from flask import request
 
 class GroupResource(Resource):
     @jwt_required()
-    def get(self, group_id=None):
-        if group_id:
-            group = Group.query.get(group_id)
-            if group:
-                return group_schema.dump(group)
-            else:
-                abort(404, message="Product not found")
-        else:
-            products = Group.query.all()
-            return groups_schema.dump(products)
+    def get(self):
+        group = Group.query.all()
+        return groups_schema.dump(group)
 
     @jwt_required()
     def post(self):
@@ -28,3 +21,33 @@ class GroupResource(Resource):
         db.session.add(new_group)
         db.session.commit()
         return group_schema.dump(new_group), 201
+
+
+class GroupResourceID(Resource):
+    @jwt_required()
+    def get(self, group_id):
+        group = Group.query.get(group_id)
+        if group:
+            return group_schema.dump(group)
+        else:
+            abort(404, message="Product not found")
+
+    @jwt_required()
+    def put(self, group_id):
+        group = Group.query.get(group_id)
+        if group:
+            group.group_name = request.json["group_name"]
+            db.session.commit()
+            return group_schema.dump(group)
+        else:
+            abort(404, message="Group not found")
+
+    @jwt_required()
+    def delete(self, group_id):
+        group = Group.query.get(group_id)
+        if group:
+            db.session.delete(group)
+            db.session.commit()
+            return "", 204
+        else:
+            abort(404, message="Group not found")

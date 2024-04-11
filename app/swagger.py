@@ -147,6 +147,64 @@ def swagger_json():
                     },
                 },
             },
+            "/groups/{group_id}": {
+                "get": {
+                    "summary": "Get a Group by ID",
+                    "parameters": [
+                        {
+                            "name": "group_id",
+                            "in": "path",
+                            "required": True,
+                            "type": "integer",
+                        }
+                    ],
+                    "responses": {
+                        "200": {"description": "Group details"},
+                        "404": {"description": "Group not found"},
+                    },
+                },
+                "put": {
+                    "summary": "Update a group by ID",
+                    "parameters": [
+                        {
+                            "name": "group_id",
+                            "in": "path",
+                            "required": True,
+                            "type": "integer",
+                        },
+                        {
+                            "name": "body",
+                            "in": "body",
+                            "required": True,
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "group_name": {"type": "string"},
+                                },
+                            },
+                        },
+                    ],
+                    "responses": {
+                        "200": {"description": "Group updated successfully"},
+                        "404": {"description": "Group not found"},
+                    },
+                },
+                "delete": {
+                    "summary": "Delete a group by ID",
+                    "parameters": [
+                        {
+                            "name": "group_id",
+                            "in": "path",
+                            "required": True,
+                            "type": "integer",
+                        }
+                    ],
+                    "responses": {
+                        "204": {"description": "Group deleted successfully"},
+                        "404": {"description": "Group not found"},
+                    },
+                },
+            },
         },
         "definitions": {
             "Product": {
