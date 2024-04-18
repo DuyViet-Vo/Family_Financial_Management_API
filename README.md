@@ -3,6 +3,7 @@
 ## Prerequisites
 - [Python](https://www.python.org/) v3.12
 - [PostgreSQL](https://www.postgresql.org/)
+- [Dbdiagram](https://dbdiagram.io/d/Family-Finance-Manage-65ddab415cd0412774e76553)
 
 ## Setup
 
