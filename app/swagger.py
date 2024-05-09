@@ -213,6 +213,97 @@ def swagger_json():
                     },
                 },
             },
+            "/transaction": {
+                "get": {
+                    "summary": "Get all transactions",
+                    "responses": {
+                        "200": {"description": "List of transaction"}
+                    },
+                },
+                "post": {
+                    "summary": "Create a new transaction",
+                    "parameters": [
+                        {
+                            "name": "body",
+                            "in": "body",
+                            "required": True,
+                            "schema": {"$ref": "#/definitions/Transaction"},
+                        }
+                    ],
+                    "responses": {
+                        "201": {
+                            "description": "Transaction created successfully"
+                        }
+                    },
+                },
+            },
+            "/transaction/{transaction_id}": {
+                "get": {
+                    "summary": "Get a Transaction by ID",
+                    "parameters": [
+                        {
+                            "name": "transaction_id",
+                            "in": "path",
+                            "required": True,
+                            "type": "integer",
+                        }
+                    ],
+                    "responses": {
+                        "200": {"description": "Transaction details"},
+                        "404": {"description": "Transaction not found"},
+                    },
+                },
+                "put": {
+                    "summary": "Update a Transaction by ID",
+                    "parameters": [
+                        {
+                            "name": "transaction_id",
+                            "in": "path",
+                            "required": True,
+                            "type": "integer",
+                        },
+                        {
+                            "name": "body",
+                            "in": "body",
+                            "required": True,
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "amount": {"type": "number"},
+                                    "description": {"type": "string"},
+                                    "update_at": {
+                                        "type": "string",
+                                        "format": "date-time",
+                                    },
+                                },
+                            },
+                        },
+                    ],
+                    "responses": {
+                        "200": {
+                            "description": "Transaction updated successfully"
+                        },
+                        "404": {"description": "Transaction not found"},
+                    },
+                },
+                "delete": {
+                    "summary": "Delete a Transaction by ID",
+                    "parameters": [
+                        {
+                            "name": "transaction_id",
+                            "in": "path",
+                            "required": True,
+                            "type": "integer",
+                        }
+                    ],
+                    "responses": {
+                        "204": {
+                            "description": "Transaction deleted successfully"
+                        },
+                        "404": {"description": "Transaction not found"},
+                    },
+                },
+            },
         },
         "definitions": {
             "GroupMember": {
@@ -242,6 +333,16 @@ def swagger_json():
                 "properties": {
                     "group_name": {"type": "string"},
                     "user_create": {"type": "number"},
+                },
+            },
+            "Transaction": {
+                "type": "object",
+                "properties": {
+                    "amount": {"type": "number"},
+                    "description": {"type": "string"},
+                    "update_at": {"type": "string", "format": "date-time"},
+                    "group": {"type": "number"},
+                    "account": {"type": "number"},
                 },
             },
         },

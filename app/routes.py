@@ -1,6 +1,7 @@
 from flask_restful import Api
 from group_members.resources import GroupMemberResource, GroupMemberResourceID
 from groups.resources import GroupResource, GroupResourceID
+from transactions.resources import TransactionsResource, TransactionsResourceID
 from users.resources import LoginResource, UserResource
 
 
@@ -13,4 +14,8 @@ def create_routes(api):
     api.add_resource(GroupMemberResource, "/group-members"),
     api.add_resource(
         GroupMemberResourceID, "/group-members/<int:group_member_id>"
+    ),
+    api.add_resource(TransactionsResource, "/transaction"),
+    api.add_resource(
+        TransactionsResourceID, "/transaction/<int:transaction_id>"
     ),
