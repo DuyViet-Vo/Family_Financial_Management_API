@@ -304,6 +304,12 @@ def swagger_json():
                     },
                 },
             },
+            "/user-info": {
+                "get": {
+                    "summary": "Get user information",
+                    "responses": {"200": {"description": "User information"}},
+                },
+            },
         },
         "definitions": {
             "GroupMember": {

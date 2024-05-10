@@ -1,12 +1,15 @@
 from datetime import timedelta
 
 from config import db
-from flask_jwt_extended import create_access_token, jwt_required
+from flask import jsonify, request
+from flask_jwt_extended import (
+    create_access_token,
+    get_jwt_identity,
+    jwt_required,
+)
 from flask_restful import Resource
 from users.models import User
 from users.schemas import user_schema
-
-from flask import request
 
 
 class UserResource(Resource):
@@ -44,3 +47,15 @@ class LoginResource(Resource):
             identity=email, expires_delta=timedelta(minutes=60)
         )
         return {"access_token": access_token}, 200
+
+
+class UserInfoResource(Resource):
+    @jwt_required()
+    def get(self):
+        current_user = get_jwt_identity()
+
+        user = User.query.filter_by(email=current_user).first()
+        if user:
+            return user_schema.dump(user), 200
+        else:
+            return {"message": "User not found"}, 404
