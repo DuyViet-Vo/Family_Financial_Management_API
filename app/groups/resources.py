@@ -1,10 +1,9 @@
 from config import db
+from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, abort
 from groups.models import Group
 from groups.schemas import group_schema, groups_schema
-
-from flask import request
 
 
 class GroupResource(Resource):
@@ -30,7 +29,7 @@ class GroupResourceID(Resource):
         if group:
             return group_schema.dump(group)
         else:
-            abort(404, message="Product not found")
+            abort(404, message="Group not found")
 
     @jwt_required()
     def put(self, group_id):
