@@ -4,13 +4,22 @@ from flask_jwt_extended import jwt_required
 from flask_restful import Resource, abort
 from groups.models import Group
 from groups.schemas import group_schema, groups_schema
+from users.models import User
+from users.schemas import user_schema
 
 
 class GroupResource(Resource):
     @jwt_required()
     def get(self):
-        group = Group.query.all()
-        return groups_schema.dump(group)
+        groups = Group.query.all()
+        serialized_groups = []
+        for group in groups:
+            user = User.query.get(group.user_create)
+            user_info = user_schema.dump(user)
+            group_data = group_schema.dump(group)
+            group_data["user_create"] = user_info
+            serialized_groups.append(group_data)
+        return serialized_groups
 
     @jwt_required()
     def post(self):
@@ -27,7 +36,12 @@ class GroupResourceID(Resource):
     def get(self, group_id):
         group = Group.query.get(group_id)
         if group:
-            return group_schema.dump(group)
+            user = User.query.get(group.user_create)
+            user_info = user_schema.dump(user)
+            # Add user information to the group data
+            group_data = group_schema.dump(group)
+            group_data["user_create"] = user_info
+            return group_data
         else:
             abort(404, message="Group not found")
 
