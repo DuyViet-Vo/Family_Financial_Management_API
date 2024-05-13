@@ -34,7 +34,16 @@ def swagger_json():
                             "name": "body",
                             "in": "body",
                             "required": True,
-                            "schema": {"$ref": "#/definitions/GroupMember"},
+                            "schema": {
+                                "type": "object",
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email",
+                                    },
+                                    "group": {"type": "integer"},
+                                },
+                            },
                         }
                     ],
                     "responses": {

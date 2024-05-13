@@ -1,10 +1,10 @@
 from config import db
+from flask import request
 from flask_jwt_extended import jwt_required
 from flask_restful import Resource, abort
 from group_members.models import GroupMember
 from group_members.schemas import group_member_many_schema, group_member_schema
-
-from flask import request
+from users.models import User
 
 
 class GroupMemberResource(Resource):
@@ -15,9 +15,12 @@ class GroupMemberResource(Resource):
 
     @jwt_required()
     def post(self):
-        account = request.json["account"]
+        email = request.json["email"]
         group = request.json["group"]
-        new_group_member = GroupMember(account=account, group=group)
+        user = User.query.filter_by(email=email).first()
+        if user is None:
+            return {"message": "User does not exist"}, 404
+        new_group_member = GroupMember(account=user.id, group=group)
         db.session.add(new_group_member)
         db.session.commit()
         return group_member_schema.dump(new_group_member), 201
